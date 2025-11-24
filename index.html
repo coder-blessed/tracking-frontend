@@ -208,7 +208,7 @@
     const password = document.getElementById("loginPassword").value;
 
     try {
-      const res = await axios.post("http://localhost:3000/login", { email, password });
+      const res = await axios.post("https://track-backend-pll2.onrender.com/login", { email, password });
 
       // store token to mark logged-in user
       localStorage.setItem("token", res.data.token);
@@ -227,7 +227,7 @@
     const password = document.getElementById("signupPassword").value;
 
     try {
-      await axios.post("http://localhost:3000/signup", { name, email, password });
+      await axios.post("https://track-backend-pll2.onrender.com/signup", { name, email, password });
 
       alert("Signup successful! You can now log in.");
       showLogin();
