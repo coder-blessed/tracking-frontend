@@ -213,6 +213,8 @@
 
       // store token to mark logged-in user
       localStorage.setItem("token", res.data.token);
+         localStorage.setItem("name", res.data.name); // <- make sure your backend returns the name on login
+
 
   
 
@@ -245,6 +247,9 @@
 
     try {
       await axios.post("https://track-backend-pll2.onrender.com/signup", { name, email, password });
+
+        // store name temporarily so login page can greet
+    localStorage.setItem("name", name);
 
     Swal.fire({
         icon: 'success',
