@@ -248,6 +248,13 @@
       // temporarily store name for greeting after signup
       localStorage.setItem("name", name);
 
+         // store token
+    localStorage.setItem("token", res.data.token);
+
+    // store the real name from response
+    // Use res.data.user.name if your backend sends { token, user: { name } }
+    localStorage.setItem("name", res.data.user?.name || "User");
+
       Swal.fire({
         icon: 'success',
         title: 'Signup Successful!',
