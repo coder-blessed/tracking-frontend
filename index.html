@@ -204,40 +204,40 @@
   }
 
   // LOGIN
-  async function login() {
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
+async function login() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
 
-    try {
-      const res = await axios.post("https://track-backend-pll2.onrender.com/login", { email, password });
+  try {
+    const res = await axios.post("https://track-backend-pll2.onrender.com/login", { email, password });
 
-      // store token
-      localStorage.setItem("token", res.data.token);
+    // store token
+    localStorage.setItem("token", res.data.token);
 
-      // store name from backend response
-      // IMPORTANT: ensure backend login API returns { token, name }
-      localStorage.setItem("name", res.data.name || "User");
+    // store name from backend response
+    // Adjust this depending on your backend response structure:
+    // if your backend sends { token, user: { name, email } }
+    localStorage.setItem("name", res.data.user?.name || "User");
 
-      // SweetAlert success and redirect
-      Swal.fire({
-        icon: 'success',
-        title: 'Login Successful!',
-        text: 'Redirecting to your dashboard...',
-        timer: 1500,
-        showConfirmButton: false,
-        timerProgressBar: true,
-      }).then(() => {
-        window.location.href = "track.html";
-      });
+    Swal.fire({
+      icon: 'success',
+      title: 'Login Successful!',
+      text: 'Redirecting to your dashboard...',
+      timer: 1500,
+      showConfirmButton: false,
+      timerProgressBar: true,
+    }).then(() => {
+      window.location.href = "track.html";
+    });
 
-    } catch (err) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: err.response?.data?.message || 'An error occurred. Please try again.',
-      });
-    }
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Login Failed',
+      text: err.response?.data?.message || 'An error occurred. Please try again.',
+    });
   }
+}
 
   // SIGNUP
   async function signup() {
