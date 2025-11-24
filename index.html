@@ -203,8 +203,7 @@
     document.getElementById("signupTab").classList.remove("active");
   }
 
-  // LOGIN
-async function login() {
+ async function login() {
   const email = document.getElementById("loginEmail").value;
   const password = document.getElementById("loginPassword").value;
 
@@ -214,9 +213,8 @@ async function login() {
     // store token
     localStorage.setItem("token", res.data.token);
 
-    // store name from backend response
-    // Adjust this depending on your backend response structure:
-    // if your backend sends { token, user: { name, email } }
+    // store the real name from response
+    // Use res.data.user.name if your backend sends { token, user: { name } }
     localStorage.setItem("name", res.data.user?.name || "User");
 
     Swal.fire({
@@ -238,7 +236,6 @@ async function login() {
     });
   }
 }
-
   // SIGNUP
   async function signup() {
     const name = document.getElementById("signupName").value;
