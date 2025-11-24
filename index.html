@@ -7,6 +7,7 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
     body {
@@ -213,10 +214,26 @@
       // store token to mark logged-in user
       localStorage.setItem("token", res.data.token);
 
-      // redirect to track.html
-      window.location.href = "track.html";
+  
+
+      // SweetAlert success and redirect
+      Swal.fire({
+        icon: 'success',
+        title: 'Login Successful!',
+        text: 'Redirecting to your dashboard...',
+        timer: 1500,
+        showConfirmButton: false,
+        timerProgressBar: true,
+      }).then(() => {
+        window.location.href = "track.html";
+      });
+
     } catch (err) {
-      alert("Login failed: " + err.response.data.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: err.response?.data?.message || 'An error occurred. Please try again.',
+      });
     }
   }
 
@@ -229,11 +246,29 @@
     try {
       await axios.post("https://track-backend-pll2.onrender.com/signup", { name, email, password });
 
-      alert("Signup successful! You can now log in.");
-      showLogin();
+    Swal.fire({
+        icon: 'success',
+        title: 'Signup Successful!',
+        text: 'You can now log in.',
+        timer: 1500,
+        showConfirmButton: false,
+        timerProgressBar: true,
+      }).then(() => {
+        showLogin();
+      });
+
     } catch (err) {
-      alert("Signup failed: " + err.response.data.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Signup Failed',
+        text: err.response?.data?.message || 'An error occurred. Please try again.',
+      });
     }
+  }
+
+  // If already logged in, redirect to track.html automatically
+  if (localStorage.getItem("token")) {
+    window.location.href = "track.html";
   }
 
   // If already logged in, redirect to track.html automatically
