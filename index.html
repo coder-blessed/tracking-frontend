@@ -213,9 +213,10 @@
 
       // store token to mark logged-in user
       localStorage.setItem("token", res.data.token);
-         localStorage.setItem("name", res.data.name); // <- make sure your backend returns the name on login
+        //  localStorage.setItem("name", res.data.name); // <- make sure your backend returns the name on login
 
-
+   // store name from response (adjust if your API returns differently)
+    localStorage.setItem("name", res.data.name || "User");
   
 
       // SweetAlert success and redirect
