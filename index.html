@@ -211,19 +211,12 @@
     try {
       const res = await axios.post("https://track-backend-pll2.onrender.com/login", { email, password });
 
-      // store token to mark logged-in user
+      // store token
       localStorage.setItem("token", res.data.token);
-        //  localStorage.setItem("name", res.data.name); // <- make sure your backend returns the name on login
 
-   // store name from response (adjust if your API returns differently)
-    localStorage.setItem("name", res.data.name || "User");
-
-    // store token
-localStorage.setItem("token", res.data.token);
-
-// store name from response
-localStorage.setItem("name", res.data.name); // this is crucial
-  
+      // store name from backend response
+      // IMPORTANT: ensure backend login API returns { token, name }
+      localStorage.setItem("name", res.data.name || "User");
 
       // SweetAlert success and redirect
       Swal.fire({
@@ -255,10 +248,10 @@ localStorage.setItem("name", res.data.name); // this is crucial
     try {
       await axios.post("https://track-backend-pll2.onrender.com/signup", { name, email, password });
 
-        // store name temporarily so login page can greet
-    localStorage.setItem("name", name);
+      // temporarily store name for greeting after signup
+      localStorage.setItem("name", name);
 
-    Swal.fire({
+      Swal.fire({
         icon: 'success',
         title: 'Signup Successful!',
         text: 'You can now log in.',
@@ -278,15 +271,11 @@ localStorage.setItem("name", res.data.name); // this is crucial
     }
   }
 
-  // If already logged in, redirect to track.html automatically
-  if (localStorage.getItem("token")) {
-    window.location.href = "track.html";
-  }
-
-  // If already logged in, redirect to track.html automatically
+  // Redirect if already logged in
   if (localStorage.getItem("token")) {
     window.location.href = "track.html";
   }
 </script>
+
 </body>
 </html>
