@@ -238,42 +238,43 @@
 }
   // SIGNUP
   async function signup() {
-    const name = document.getElementById("signupName").value;
-    const email = document.getElementById("signupEmail").value;
-    const password = document.getElementById("signupPassword").value;
+  const name = document.getElementById("signupName").value;
+  const email = document.getElementById("signupEmail").value;
+  const password = document.getElementById("signupPassword").value;
 
-    try {
-      await axios.post("https://track-backend-pll2.onrender.com/signup", { name, email, password });
+  try {
+    // Send signup request
+    const res = await axios.post("https://track-backend-pll2.onrender.com/signup", {
+      name,
+      email,
+      password
+    });
 
-      // temporarily store name for greeting after signup
-      localStorage.setItem("name", name);
-
-         // store token
+    // Save token and name from backend response
     localStorage.setItem("token", res.data.token);
+    localStorage.setItem("name", res.data.user.name);
 
-    // store the real name from response
-    // Use res.data.user.name if your backend sends { token, user: { name } }
-    localStorage.setItem("name", res.data.user?.name || "User");
+    Swal.fire({
+      icon: 'success',
+      title: 'Signup Successful!',
+      text: 'Redirecting...',
+      timer: 1500,
+      showConfirmButton: false,
+      timerProgressBar: true,
+    }).then(() => {
+      // After signup, go to login form
+      showLogin();
+    });
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Signup Successful!',
-        text: 'You can now log in.',
-        timer: 1500,
-        showConfirmButton: false,
-        timerProgressBar: true,
-      }).then(() => {
-        showLogin();
-      });
-
-    } catch (err) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Signup Failed',
-        text: err.response?.data?.message || 'An error occurred. Please try again.',
-      });
-    }
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Signup Failed',
+      text: err.response?.data?.message || 'An error occurred. Please try again.',
+    });
   }
+}
+
 
   // Redirect if already logged in
   if (localStorage.getItem("token")) {
