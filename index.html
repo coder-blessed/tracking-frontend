@@ -222,6 +222,7 @@ Tawk_API.visitor = {
 
 
 
+<<<<<<< HEAD
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
@@ -232,6 +233,92 @@ s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
+=======
+  function showLogin() {
+    document.getElementById("signupForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("loginTab").classList.add("active");
+    document.getElementById("signupTab").classList.remove("active");
+  }
+
+ async function login() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  try {
+    const res = await axios.post("https://track-backend-pll2.onrender.com/login", { email, password });
+
+    // store token
+    localStorage.setItem("token", res.data.token);
+
+    // store the real name from response
+    // Use res.data.user.name if your backend sends { token, user: { name } }
+    localStorage.setItem("name", res.data.user?.name || "User");
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Login Successful!',
+      text: 'Redirecting to your dashboard...',
+      timer: 1500,
+      showConfirmButton: false,
+      timerProgressBar: true,
+    }).then(() => {
+      window.location.href = "track.html";
+    });
+
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Login Failed',
+      text: err.response?.data?.message || 'An error occurred. Please try again.',
+    });
+  }
+}
+  // SIGNUP
+  async function signup() {
+  const name = document.getElementById("signupName").value;
+  const email = document.getElementById("signupEmail").value;
+  const password = document.getElementById("signupPassword").value;
+
+  try {
+    // Send signup request
+    const res = await axios.post("https://track-backend-pll2.onrender.com/signup", {
+      name,
+      email,
+      password
+    });
+
+    // Save token and name from backend response
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("name", res.data.user.name);
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Signup Successful!',
+      text: 'Redirecting...',
+      timer: 1500,
+      showConfirmButton: false,
+      timerProgressBar: true,
+    }).then(() => {
+      // After signup, go to login form
+      showLogin();
+    });
+
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Signup Failed',
+      text: err.response?.data?.message || 'An error occurred. Please try again.',
+    });
+  }
+}
+
+
+  // Redirect if already logged in
+  if (localStorage.getItem("token")) {
+    window.location.href = "track.html";
+  }
+>>>>>>> 090f6fca03ab17497521efbfa95efba5fb7c7651
 </script>
 
   <!-- ✅ Footer -->
