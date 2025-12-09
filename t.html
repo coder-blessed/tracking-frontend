@@ -1,0 +1,286 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SwiftTrack - Welcome</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('image2.png') center/cover no-repeat fixed;
+    }
+
+    header {
+      background: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .logo h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .logo span {
+      color: #27ae60;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: #2c3e50;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    nav ul li a:hover {
+      color: #27ae60;
+    }
+
+    .container {
+      background: rgba(255,255,255,0.92);
+      width: 350px;
+      margin: 4rem auto;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .tab-btn {
+      width: 50%;
+      padding: 0.8rem;
+      cursor: pointer;
+      background: lightgray;
+      border: none;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+
+    .tab-btn.active {
+      background: #3498db;
+      color: white;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Poppins';
+    }
+
+    button {
+      background: linear-gradient(to right, #3498db, red);
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .link a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+      font-size: 0.875rem;
+      color: #7f8c8d;
+    }
+
+    footer a {
+      color: #7f8c8d;
+      margin: 0 0.5rem;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #2ecc71;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <h1>Swift<span>Track</span></h1>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="services.html"><i class="fas fa-truck"></i> Services</a></li>
+      <li><a href="#"><i class="fas fa-phone-alt"></i> Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="container">
+
+  <div class="tabs">
+    <button class="tab-btn active" id="loginTab" onclick="showLogin()">Login</button>
+    <button class="tab-btn" id="signupTab" onclick="showSignup()">Sign Up</button>
+  </div>
+
+  <div id="loginForm">
+    <input type="email" id="loginEmail" placeholder="Email" required />
+    <input type="password" id="loginPassword" placeholder="Password" required />
+    <button onclick="login()">Login</button>
+
+    <div class="link">
+      <a href="services.html">View Our Services</a>
+    </div>
+  </div>
+
+  <div id="signupForm" style="display:none;">
+    <input type="text" id="signupName" placeholder="Full Name" />
+    <input type="email" id="signupEmail" placeholder="Email" />
+    <input type="password" id="signupPassword" placeholder="Password" />
+    <button onclick="signup()">Create Account</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2023 SwiftTrack Express Delivery. All rights reserved.</p>
+  <div>
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  // TAB SWITCH
+  function showSignup() {
+    document.getElementById("signupForm").style.display = "block";
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("signupTab").classList.add("active");
+    document.getElementById("loginTab").classList.remove("active");
+  }
+
+  function showLogin() {
+    document.getElementById("signupForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("loginTab").classList.add("active");
+    document.getElementById("signupTab").classList.remove("active");
+  }
+
+ async function login() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  try {
+    const res = await axios.post("https://track-backend-pll2.onrender.com/login", { email, password });
+
+    // store token
+    localStorage.setItem("token", res.data.token);
+
+    // store the real name from response
+    // Use res.data.user.name if your backend sends { token, user: { name } }
+    localStorage.setItem("name", res.data.user?.name || "User");
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Login Successful!',
+      text: 'Redirecting to your dashboard...',
+      timer: 1500,
+      showConfirmButton: false,
+      timerProgressBar: true,
+    }).then(() => {
+      window.location.href = "track.html";
+    });
+
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Login Failed',
+      text: err.response?.data?.message || 'An error occurred. Please try again.',
+    });
+  }
+}
+  // SIGNUP
+ async function signup() {
+  const name = document.getElementById("signupName").value;
+  const email = document.getElementById("signupEmail").value;
+  const password = document.getElementById("signupPassword").value;
+
+  try {
+    // Send signup request
+    const res = await axios.post("https://track-backend-pll2.onrender.com/signup", {
+      name,
+      email,
+      password
+    });
+
+    // Save token and name from backend response
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("name", res.data.user.name);
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Signup Successful!',
+      text: 'Redirecting...',
+      timer: 1500,
+      showConfirmButton: false,
+      timerProgressBar: true,
+    }).then(() => {
+      // After signup, go to login form
+      showLogin();
+    });
+
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Signup Failed',
+      text: err.response?.data?.message || 'An error occurred. Please try again.',
+    });
+  }
+}
+
+
+  // Redirect if already logged in
+  if (localStorage.getItem("token")) {
+    window.location.href = "track.html";
+  }
+</script>
+
+</body>
+</html> -->
